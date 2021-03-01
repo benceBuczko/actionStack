@@ -1,22 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import withActionStack from './actionStack/withActionStack';
+import {ActionButtons, ActionButtonsReadingFromContext} from "./ActionButtons";
+import ActionStack from "./actionStack/ActionStack";
+
+const onUpdate = value => console.log(value);
+const initialValue = {
+  test: true,
+  test2: false,
+  test3: 'test',
+};
+const providerProps = {
+  initialValue,
+  onUpdate,
+};
+
+const ButtonsWithHoc = withActionStack(ActionButtons, providerProps);
+
 
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>HOC</p>
+
+        <ButtonsWithHoc />
+
+        <p>Provider</p>
+
+        <ActionStack {...providerProps}>
+          <ActionButtonsReadingFromContext/>
+        </ActionStack>
       </header>
     </div>
   );
